@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Work Time Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>WORK TIME TRACKER</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('logHours')">Log Work Hours</a></li>
+            <li><a href="#" onclick="showSection('taskTimer')">Track Task Time</a></li>
+            <li><a href="#" onclick="showSection('generateReport')">Generate Reports</a></li>
+            <li><a href="#" onclick="showSection('setReminder')">Set Reminders</a></li>
+            <li><a href="#" onclick="showSection('integrationSettings')">Integration Settings</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <!-- Log Work Hours -->
+        <section id="logHours" class="content-section">
+            <h2>Log Work Hours</h2>
+            <form>
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" name="startTime">
+                <label for="endTime">End Time:</label>
+                <input type="datetime-local" id="endTime" name="endTime">
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="project">Project</option>
+                    <option value="task">Task</option>
+                </select>
+                <button type="button" class="btn" onclick="logHours()">Log Hours</button>
+            </form>
+            <div id="summary"></div>
+        </section>
+        
+        <!-- Track Task Time -->
+        <section id="taskTimer" class="content-section">
+            <h2>Track Task Time</h2>
+            <div>
+                <button type="button" class="btn start-btn" onclick="startTimer()">Start</button>
+                <button type="button" class="btn stop-btn" onclick="stopTimer()" disabled>Stop</button>
+            </div>
+            <div>
+                <p>Elapsed Time: <span id="timerTime">00:00:00</span></p>
+                <input type="text" id="taskDescription" placeholder="Enter task description">
+                <button type="button" class="btn" onclick="stopTimer()">Add Task</button>
+            </div>
+            <ul id="taskList"></ul>
+            <ul id="timelineList"></ul>
+        </section>
+
+        <!-- Generate Reports -->
+        <section id="generateReport" class="content-section">
+            <h2>Generate Time Tracking Reports</h2>
+            <button type="button" class="btn" onclick="generateReport()">Generate Report</button>
+            <div id="reportCharts"></div>
+            <button type="button" class="btn" onclick="exportReport('pdf')">Export as PDF</button>
+            <button type="button" class="btn" onclick="exportReport('csv')">Export as CSV</button>
+        </section>
+
+        <!-- Set Reminders -->
+        <section id="setReminder" class="content-section">
+            <h2>Set Time Tracking Reminders</h2>
+            <label for="reminderInterval">Interval (minutes):</label>
+            <input type="number" id="reminderInterval">
+            <label for="reminderType">Notification Type:</label>
+            <select id="reminderType">
+                <option value="popup">Popup</option>
+                <option value="email">Email</option>
+                <option value="sms">SMS</option>
+            </select>
+            <button type="button" class="btn" onclick="setReminder()">Set Reminder</button>
+        </section>
+
+        <!-- Integration Settings -->
+        <section id="integrationSettings" class="content-section">
+            <h2>Integrate with Project Management Tools</h2>
+            <label for="integrationPlatform">Select Platform:</label>
+            <select id="integrationPlatform" onchange="connectPlatform()">
+                <option value="">Select...</option>
+                <option value="asana">Asana</option>
+                <option value="trello">Trello</option>
+                <option value="jira">Jira</option>
+            </select>
+            <div id="integrationDetails" class="hidden"></div>
+            <div id="linkedTasks" class="hidden">
+                <h3>Linked Tasks</h3>
+                <ul id="linkedTaskList"></ul>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</body>
+</html>
