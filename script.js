@@ -94,10 +94,61 @@ function exportReport(format) {
 }
 
 // Example functions for Set Reminders section
+let reminderTimeout;
+let reminderInterval;
+let snoozeTimeout;
+
 function setReminder() {
-    // Add your reminder functionality here
-    console.log('Reminder set');
+    const interval = parseInt(document.getElementById('reminderInterval').value, 10);
+    const type = document.getElementById('reminderType').value;
+
+    if (interval && type) {
+        // Clear any existing reminders
+        clearTimeout(reminderTimeout);
+        clearInterval(reminderInterval);
+        clearTimeout(snoozeTimeout);
+
+        // Set a reminder with the specified interval and type
+        reminderInterval = setInterval(() => {
+            alertReminder(type);
+        }, interval * 60 * 1000); // Convert minutes to milliseconds
+
+        // Set the first reminder
+        reminderTimeout = setTimeout(() => {
+            alertReminder(type);
+        }, interval * 60 * 1000); // Convert minutes to milliseconds
+
+        // Provide feedback
+        alert(`Reminder set to every ${interval} minutes with ${type} notifications.`);
+    } else {
+        alert('Please set both interval and type.');
+    }
 }
+
+function alertReminder(type) {
+    const dismiss = confirm(`Reminder: Time for a ${type} notification! Press OK to dismiss or Cancel to snooze for 5 minutes.`);
+    
+    if (dismiss) {
+        // Dismiss the reminder
+        clearTimeout(reminderTimeout);
+        clearInterval(reminderInterval);
+        alert('Reminder dismissed.');
+    } else {
+        // Snooze the reminder
+        clearTimeout(reminderTimeout);
+        clearInterval(reminderInterval);
+        snoozeTimeout = setTimeout(() => {
+            alertReminder(type);
+        }, 5 * 60 * 1000); // Snooze for 5 minutes
+        alert('Reminder snoozed for 5 minutes.');
+        
+        // Reset interval for future reminders
+        reminderInterval = setInterval(() => {
+            alertReminder(type);
+        }, 5 * 60 * 1000); // Convert 5 minutes to milliseconds
+    }
+}
+
 
 // Example functions for Integration Settings section
 function connectPlatform() {
@@ -230,4 +281,5 @@ function displayLinkedTasks() {
         <li>Task 3 - Project C</li>
     `;
 }
+
 
